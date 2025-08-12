@@ -110,3 +110,12 @@ export interface ExternalIDS {
 export interface VideoThumbnail {
     url: null;
 }
+
+
+export interface SongDetails {
+    songTitle: String;
+    artists: String[];
+    albumName: String;
+    durationMs: number;
+    releaseDate: Date;
+}

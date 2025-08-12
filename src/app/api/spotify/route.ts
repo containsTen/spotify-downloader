@@ -1,4 +1,6 @@
-import { getPlaylist } from "@/lib/spotify";
+import { SpotifyResult } from "@/interfaces/apiResponse";
+import { Playlist, SongDetails, Track } from "@/interfaces/spotify";
+import { getPlaylist, getTrack } from "@/lib/spotify";
 import { NextRequest } from "next/server";
 
 /**
@@ -8,6 +10,7 @@ import { NextRequest } from "next/server";
  */
 export async function GET(req: NextRequest) {
 
+  console.log("The get function has been triggered for /api/spotify ")
   const { searchParams } = new URL(req.url);
   const url = searchParams.get("url");
 
@@ -17,18 +20,28 @@ export async function GET(req: NextRequest) {
   let urlType = url?.includes("/playlist/") ? "playlist" : url?.includes("/track/") ? "track" : "unknown";
   // Catch an error if the urlType does not contain either
 
-  let id = url?.replace(/^https:\/\/open\.spotify\.com\/(playlist|track)\//, "");
+  let id = url?.replace(/^https:\/\/open\.spotify\.com\/(playlist|track)\//, "") as string;
   // let id = urlType ? "playlist"
 
-  // let results = getPlaylist(id);
+  let results: SpotifyResult<SongDetails|SongDetails[]>;
   if (urlType === "playlist") {
-    let results = await getPlaylist(id as string);
-    console.log(results);
-  } 
+    console.log("This playlist function was invoked.")
+    results = await getPlaylist(id) as SpotifyResult<SongDetails[]>;
+  } else if (urlType === "track") {
+    console.log("This track function was invoked.")
+    results = await getTrack(id) as SpotifyResult<SongDetails[]>;
+  } else {
+    results = {
+      error: "There was an error with the API response."
+    }
+  }
+  
 
+  // console.log(results);
   return Response.json({
-    "received": "success",
+    "received": "new5",
     "isolated": id,
-    "urlType": urlType
+    "urlType": urlType,
+    "data": results.data
   });
 }
