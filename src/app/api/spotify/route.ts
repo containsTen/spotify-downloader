@@ -1,6 +1,7 @@
 import { SpotifyResult } from "@/interfaces/apiResponse";
 import { Playlist, SongDetails, Track } from "@/interfaces/spotify";
 import { getPlaylist, getTrack } from "@/lib/spotify";
+import { downloadPlaylist } from "@/lib/ytdlp";
 import { NextRequest } from "next/server";
 
 /**
@@ -35,6 +36,8 @@ export async function GET(req: NextRequest) {
       error: "There was an error with the API response."
     }
   }
+
+  await downloadPlaylist(results.data as SongDetails[]); 
   
 
   // console.log(results);

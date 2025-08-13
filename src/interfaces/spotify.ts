@@ -113,9 +113,9 @@ export interface VideoThumbnail {
 
 
 export interface SongDetails {
-    songTitle: String;
-    artists: String[];
-    albumName: String;
+    songTitle: string;
+    artists: string[];
+    albumName: string;
     durationMs: number;
     releaseDate: Date;
 }

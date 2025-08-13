@@ -68,7 +68,7 @@ export async function getPlaylist(playlistId: string) {
     tracks.map((element: Item) => {
       // console.log(element);
       const track = element.track;
-      let artists: String[] = track.artists.map(artist => artist.name || "")
+      let artists: string[] = track.artists.map(artist => artist.name || "")
 
       
       let songDetail: SongDetails = {
